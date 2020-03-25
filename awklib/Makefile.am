@@ -65,11 +65,10 @@ clean-local:
 	rm -fr eg.old
 	rm -fr grcat.dSYM pwcat.dSYM
 
-$(srcdir)/stamp-eg: $(srcdir)/../doc/gawktexi.in $(srcdir)/../doc/gawkinet.texi
+$(srcdir)/stamp-eg:
 	cd $(srcdir) && \
 	rm -fr eg && \
 	rm -fr stamp-eg && \
-	$(AWKPROG) -f ./extract.awk ../doc/gawktexi.in ../doc/gawkinet.texi
 	@echo 'some makes are stupid and will not check a directory' > $(srcdir)/stamp-eg
 	@echo 'against a file, so this file is a place holder. gack.' >> $(srcdir)/stamp-eg
 
