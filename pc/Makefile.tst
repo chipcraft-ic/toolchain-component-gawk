@@ -375,7 +375,7 @@ check:	msg \
 	charset-tests-all \
 	shlib-msg-start  shlib-tests     shlib-msg-end \
 	mpfr-msg-start   mpfr-tests      mpfr-msg-end
-	@-$(MAKE) pass-fail || { $(MAKE) diffout; exit 1; }
+	@$(MAKE) pass-fail || { $(MAKE) diffout; exit 1; }
 
 basic:	$(BASIC_TESTS)
 
@@ -384,7 +384,7 @@ unix-tests: $(UNIX_TESTS)
 gawk-extensions: $(GAWK_EXT_TESTS)
 
 charset-tests-all:
-	@-case `uname` in \
+	@case `uname` in \
 	*MINGW* | *MS-DOS*) \
 		$(MAKE) charset-msg-start charset-tests charset-msg-end ;; \
 	*) \
@@ -396,7 +396,7 @@ charset-tests-all:
 			$(MAKE) charset-msg-start charset-tests charset-msg-end; \
 		else \
 			echo %%%%%%%%%% Inadequate locale support: skipping charset tests. ; \
-			echo %%%%%%%%%% At least ENU_USA.1252, FRA_FRA.1252, RUS_RUS.1251 and JPN_JPN.932 are needed. ; \
+			echo %%%%%%%%%% At least en_US.UTF-8, fr_FR.UTF-8, ru_RU.UTF-8 and ja_JP.UTF-8 are needed. ; \
 		fi ;; \
 	esac
 
@@ -413,19 +413,19 @@ machine-tests: $(MACHINE_TESTS)
 # to Windows format, butchering it in the process.  Likewise for /API/
 # in the next shlib-tests.
 mpfr-tests:
-	@-if $(AWK) --version | $(AWK) ' /MPFR/ { exit 1 }' ; then \
+	@if $(AWK) --version | $(AWK) ' /MPFR/ { exit 1 }' ; then \
 	echo MPFR tests not supported on this system ; \
 	else $(MAKE) $(NEED_MPFR) ; \
 	fi
 
 arraydebug-tests:
-	@-if echo $(CFLAGS) | grep ARRAYDEBUG > /dev/null ; then \
+	@if echo $(CFLAGS) | grep ARRAYDEBUG > /dev/null ; then \
 	$(MAKE) $(ARRAYDEBUG_TESTS) ; \
 	else echo gawk is not compiled to support the array debug tests ; \
 	fi
 
 shlib-tests:
-	@-if $(AWK) --version | $(AWK) ' /API/ { exit 1 }' ; then \
+	@if $(AWK) --version | $(AWK) ' /API/ { exit 1 }' ; then \
 	echo shlib tests not supported on this system ; \
 	else $(MAKE) shlib-real-tests ; \
 	fi
@@ -437,59 +437,59 @@ msg::
 	@echo 'Any output from "$(CMP)" is bad news, although some differences'
 	@echo 'in floating point values are probably benign -- in particular,'
 	@echo 'some systems may omit a leading zero and the floating point'
-	@-echo 'precision may lead to slightly different output in a few cases.'
+	@echo 'precision may lead to slightly different output in a few cases.'
 
 printlang::
-	@-$(AWK) -f "$(srcdir)"/printlang.awk
+	@$(AWK) -f "$(srcdir)"/printlang.awk
 
 basic-msg-start:
-	@-echo "======== Starting basic tests ========"
+	@echo "======== Starting basic tests ========"
 
 basic-msg-end:
-	@-echo "======== Done with basic tests ========"
+	@echo "======== Done with basic tests ========"
 
 unix-msg-start:
-	@-echo "======== Starting Unix tests ========"
+	@echo "======== Starting Unix tests ========"
 
 unix-msg-end:
-	@-echo "======== Done with Unix tests ========"
+	@echo "======== Done with Unix tests ========"
 
 extend-msg-start:
-	@-echo "======== Starting gawk extension tests ========"
+	@echo "======== Starting gawk extension tests ========"
 
 extend-msg-end:
-	@-echo "======== Done with gawk extension tests ========"
+	@echo "======== Done with gawk extension tests ========"
 
 machine-msg-start:
-	@-echo "======== Starting machine-specific tests ========"
+	@echo "======== Starting machine-specific tests ========"
 
 machine-msg-end:
-	@-echo "======== Done with machine-specific tests ========"
+	@echo "======== Done with machine-specific tests ========"
 
 charset-msg-start:
 	@echo "======== Starting tests that can vary based on character set or locale support ========"
 	@echo "**************************************************************************"
 	@echo "* Some or all of these tests may fail if you have inadequate or missing  *"
-	@echo "* locale support. At least ENU_USA.1252, FRA_FRA.1252, RUS_RUS.1251 and     *"
-	@echo "* JPN_JPN.932 are needed. The ell_GRC.1253 is optional but helpful.    *"
+	@echo "* locale support. At least en_US.UTF-8, fr_FR.UTF-8, ru_RU.UTF-8 and     *"
+	@echo "* ja_JP.UTF-8 are needed. The el_GR.iso88597 is optional but helpful.    *"
 	@echo "* However, if you see this message, the Makefile thinks you have what    *"
 	@echo "* you need ...                                                           *"
-	@-echo "**************************************************************************"
+	@echo "**************************************************************************"
 
 charset-msg-end:
-	@-echo "======== Done with tests that can vary based on character set or locale support ========"
+	@echo "======== Done with tests that can vary based on character set or locale support ========"
 
 shlib-msg-start:
-	@-echo "======== Starting shared library tests ========"
+	@echo "======== Starting shared library tests ========"
 
 shlib-msg-end:
-	@-echo "======== Done with shared library tests ========"
+	@echo "======== Done with shared library tests ========"
 
 mpfr-msg-start:
-	@-echo "======== Starting MPFR tests ========"
+	@echo "======== Starting MPFR tests ========"
 
 mpfr-msg-end:
-	@-echo "======== Done with MPFR tests ========"
+	@echo "======== Done with MPFR tests ========"
 
 # This test is a PITA because increasingly, /tmp is getting
 # mounted noexec.  So, we'll test it locally.  Sigh.
@@ -526,7 +526,7 @@ regtest::
 	@echo 'Some of the output from regtest is very system specific, do not'
 	@echo 'be distressed if your output differs from that distributed.'
 	@echo 'Manual inspection is called for.'
-	@-AWK=$(AWKPROG) "$(srcdir)"/regtest.sh
+	@AWK=$(AWKPROG) "$(srcdir)"/regtest.sh
 
 manyfiles::
 	@echo $@
@@ -545,7 +545,6 @@ compare::
 
 inftest::
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@echo This test is very machine specific...
 	@$(AWK) -f "$(srcdir)"/inftest.awk | sed "s/inf/Inf/g" >_$@ || echo EXIT CODE: $$? >> _$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
@@ -579,7 +578,6 @@ strftime::
 
 devfd::
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@$(AWK) 1 /dev/fd/4 /dev/fd/5 4<"$(srcdir)"/devfd.in4 5<"$(srcdir)"/devfd.in5 >_$@ 2>&1 || echo EXIT CODE: $$? >> _$@ || echo EXIT CODE: $$? >> _$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -601,7 +599,6 @@ tweakfld::
 # command so that pid.sh is fork'ed as a child before being exec'ed.
 pid::
 	@echo $@
-	@echo Expect $@ to fail with DJGPP and MinGW.
 	@AWKPATH="$(srcdir)" AWK=$(AWKPROG) $(SHELL) "$(srcdir)"/pid.sh $$$$ > _`basename $@` ; :
 	@-$(CMP) "$(srcdir)"/pid.ok _`basename $@` && rm -f _`basename $@`
 
@@ -646,7 +643,6 @@ pipeio1::
 
 pipeio2::
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@$(AWK) -v SRCDIR="$(srcdir)" -f "$(srcdir)"/pipeio2.awk >_$@ || echo EXIT CODE: $$? >> _$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -654,7 +650,7 @@ clobber::
 	@echo $@
 	@$(AWK) -f "$(srcdir)"/clobber.awk >_$@ || echo EXIT CODE: $$? >> _$@
 	@-$(CMP) "$(srcdir)"/clobber.ok seq && $(CMP) "$(srcdir)"/clobber.ok _$@ && rm -f _$@
-	@-rm -f seq
+	@rm -f seq
 
 arynocls::
 	@echo $@
@@ -670,26 +666,22 @@ getlnbuf::
 inetmesg::
 	@echo These tests only work if your system supports the services
 	@echo "'discard'" at port 9 and "'daytimed'" at port 13. Check your
-	@-echo file /etc/services and do "'netstat -a'".
+	@echo file /etc/services and do "'netstat -a'".
 
 inetechu::
-	@echo Expect $@ to fail with DJGPP.
 	@echo This test is for establishing UDP connections
 	@-$(AWK) 'BEGIN {print "" |& "/inet/udp/0/127.0.0.1/9"}'
 
 inetecht::
-	@echo Expect $@ to fail with DJGPP and MinGW.
 	@echo This test is for establishing TCP connections
 	@-$(AWK) 'BEGIN {print "" |& "/inet/tcp/0/127.0.0.1/9"}'
 
 inetdayu::
-	@echo Expect $@ to fail with DJGPP.
 	@echo This test is for bidirectional UDP transmission
 	@-$(AWK) 'BEGIN { print "" |& "/inet/udp/0/127.0.0.1/13"; \
 	"/inet/udp/0/127.0.0.1/13" |& getline; print $0}'
 
 inetdayt::
-	@echo Expect $@ to fail with DJGPP and MinGW.
 	@echo This test is for bidirectional TCP transmission
 	@-$(AWK) 'BEGIN { print "" |& "/inet/tcp/0/127.0.0.1/13"; \
 	"/inet/tcp/0/127.0.0.1/13" |& getline; print $0}'
@@ -702,7 +694,7 @@ redfilnm::
 space::
 	@echo $@ $(ZOS_FAIL)
 	@$(AWK) -f ' ' "$(srcdir)"/space.awk >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@ || echo EXIT CODE: $$? >> _$@
-	@-$(TESTOUTCMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
+	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 rsnulbig::
 	@echo $@
@@ -741,7 +733,7 @@ rsstart3::
 # and requires a locale. We might can fix that ...
 rtlenmb::
 	@echo $@
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE ; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE ; \
 	"$(srcdir)"/rtlen.sh >_$@ || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -757,14 +749,12 @@ binmode1::
 
 devfd1::
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@$(AWK) -f "$(srcdir)"/$@.awk 4< "$(srcdir)"/devfd.in1 5< "$(srcdir)"/devfd.in2 >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 # The program text is the '1' which will print each record. How compact can you get?
 devfd2::
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@$(AWK) 1 /dev/fd/4 /dev/fd/5 4< "$(srcdir)"/devfd.in1 5< "$(srcdir)"/devfd.in2 >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -778,7 +768,7 @@ mbprintf5::
 	@-case `uname` in \
 	CYGWIN* | MSYS* | MINGW32* | *MS-DOS*) echo this test fails on this system --- skipping $@ ;; \
 	*) \
-	[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE ; \
+	[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE ; \
 	$(AWK) -f "$(srcdir)"/$@.awk "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >> _$@ ; \
 	$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@ ; \
 	esac
@@ -797,7 +787,7 @@ beginfile1::
 beginfile2:
 	@echo $@ $(ZOS_FAIL)
 	@-( cd "$(srcdir)" && LC_ALL=C AWK="$(abs_builddir)/$(AWKPROG)" $(abs_srcdir)/$@.sh $(abs_srcdir)/$@.in ) > _$@ 2>&1 || echo EXIT CODE: $$? >> _$@
-	@-$(TESTOUTCMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
+	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 dumpvars::
 	@echo $@
@@ -835,7 +825,7 @@ profile5:
 	@echo $@
 	@AWKPATH="$(srcdir)" $(AWK) --pretty=_$@ -f $@.awk 2> _$@.err
 	@cat _$@.err >> _$@ ; rm -f _$@.err
-	@-$(TESTOUTCMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
+	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 profile6:
 	@echo $@
@@ -892,7 +882,6 @@ mpfrmemok1:
 
 jarebug::
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@"$(srcdir)"/$@.sh "$(AWKPROG)" "$(srcdir)"/$@.awk "$(srcdir)"/$@.in "_$@" || echo EXIT CODE: $$? >> _$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -1042,39 +1031,36 @@ testext::
 
 getfile:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -v TESTEXT_QUIET=1 -ltestext -f $@.awk < $(srcdir)/$@.awk >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 readdir:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@if [ "`uname`" = Linux ] && [ "`stat -f . 2>/dev/null | awk 'NR == 2 { print $$NF }'`" = nfs ];  then \
 	echo This test may fail on GNU/Linux systems when run on NFS or JFS filesystems.; \
 	echo If it does, try rerunning on an ext'[234]' filesystem. ; \
 	fi
 	@$(AWK) -f "$(srcdir)"/readdir.awk "$(top_srcdir)" > _$@ || echo EXIT CODE: $$? >> _$@
-	@$(LS) -afi "$(top_srcdir)" > _dirlist
-	@$(LS) -lna "$(top_srcdir)" | sed 1d > _longlist
+	@ls -afi "$(top_srcdir)" > _dirlist
+	@ls -lna "$(top_srcdir)" | sed 1d > _longlist
 	@$(AWK) -f "$(srcdir)"/readdir0.awk -v extout=_$@  \
 		-v dirlist=_dirlist -v longlist=_longlist > $@.ok
 	@-$(CMP) $@.ok _$@ && rm -f $@.ok _$@ _dirlist _longlist
 
 readdir_test:
 	@echo $@
-	@$(AWK) -lreaddir -F$(SLASH) '{printf "[%s] [%s] [%s] [%s]\n", $$1, $$2, $$3, $$4}' "$(top_srcdir)" > $@.ok
+	@$(AWK) -lreaddir -F/ '{printf "[%s] [%s] [%s] [%s]\n", $$1, $$2, $$3, $$4}' "$(top_srcdir)" > $@.ok
 	@$(AWK) -lreaddir_test '{printf "[%s] [%s] [%s] [%s]\n", $$1, $$2, $$3, $$4}' "$(top_srcdir)" > _$@
 	@-$(CMP) $@.ok _$@ && rm -f $@.ok _$@
 
 readdir_retest:
 	@echo $@
-	@$(AWK) -lreaddir -F$(SLASH) -f "$(srcdir)"/$@.awk "$(top_srcdir)" > $@.ok
-	@$(AWK) -lreaddir_test -F$(SLASH) -f "$(srcdir)"/$@.awk "$(top_srcdir)" > _$@
+	@$(AWK) -lreaddir -F/ -f "$(srcdir)"/$@.awk "$(top_srcdir)" > $@.ok
+	@$(AWK) -lreaddir_test -F/ -f "$(srcdir)"/$@.awk "$(top_srcdir)" > _$@
 	@-$(CMP) $@.ok _$@ && rm -f $@.ok _$@
 
 fts:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@case `uname` in \
 	IRIX) \
 	echo This test may fail on IRIX systems when run on an NFS filesystem.; \
@@ -1089,14 +1075,13 @@ fts:
 # BINMODE=2 is needed for PC tests.
 charasbytes:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -b -v BINMODE=2 -f $@.awk "$(srcdir)"/$@.in | \
 	od -c -t x1 | tr '	' ' ' | sed -e 's/  */ /g' -e 's/ *$$//' >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 symtab6:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk > _$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -1126,7 +1111,7 @@ colonwarn:
 
 dbugeval::
 	@echo $@
-	@-if [ -t 0 ]; then \
+	@if [ -t 0 ]; then \
 	$(AWK) --debug -f /dev/null < "$(srcdir)"/$@.in > _$@  2>&1 || echo EXIT CODE: $$? >>_$@ ; \
 	$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@ ; \
 	fi
@@ -1144,7 +1129,7 @@ genpot:
 negtime::
 	@echo $@
 	@TZ=GMT AWKPATH="$(srcdir)" $(AWK) -f $@.awk >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
-	@-AWKPATH="$(srcdir)" $(AWK) -f checknegtime.awk "$(srcdir)"/$@.ok _$@ && rm -f _$@
+	@AWKPATH="$(srcdir)" $(AWK) -f checknegtime.awk "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 watchpoint1:
 	@echo $@
@@ -1153,7 +1138,6 @@ watchpoint1:
 
 pty1:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP and MinGW.
 	@-case `uname` in \
 	*[Oo][Ss]/390*) : ;; \
 	*) AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@ ; \
@@ -1162,7 +1146,6 @@ pty1:
 
 pty2:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP and MinGW.
 	@-case `uname` in \
 	*[Oo][Ss]/390*) : ;; \
 	*) AWKPATH="$(srcdir)" $(AWK) -f $@.awk | od -c | $(AWK) '{ $$1 = $$1 ; print }' >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@ ; \
@@ -1171,9 +1154,8 @@ pty2:
 
 ignrcas3::
 	@echo $@
-	@echo Expect $@ to fail with DJGPP and MinGW.
-	@-if locale -a | grep ell_GRC.1253 > /dev/null ; then \
-	[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ell_GRC.1253 ; export GAWKLOCALE; \
+	@if locale -a | grep el_GR.iso88597 > /dev/null ; then \
+	[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=el_GR.iso88597 ; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@ ; \
 	$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@ ; \
 	fi
@@ -1203,14 +1185,13 @@ nsbad_cmd:
 # Use [:] in the regexp to keep MSYS from converting the /'s to \'s.
 nonfatal1:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk 2>&1 | $(AWK) '{print gensub(/invalid[:].*$$/, "invalid", 1, $$0)}' >_$@ || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 # 4/2018: On first call to $(CMP), send to /dev/null even with -s for MinGW.
 nlstringtest::
 	@echo $@
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=FRA_FRA.1252 ; export GAWKLOCALE ; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=fr_FR.UTF-8 ; export GAWKLOCALE ; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk "$(srcdir)" >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-if $(CMP) -s "$(srcdir)"/nlstringtest-nogettext.ok _$@ > /dev/null ; \
 	then \
@@ -1231,7 +1212,7 @@ spacere:
 
 typedregex4:
 	@echo $@
-	@$(AWK) -v x=@$(SLASH)foo/ -f "$(srcdir)"/$@.awk y=@$(SLASH)bar/ /dev/null >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
+	@$(AWK) -v x=@/foo/ -f "$(srcdir)"/$@.awk y=@/bar/ /dev/null >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 iolint:
@@ -1459,7 +1440,7 @@ concat3:
 
 concat4:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -1510,7 +1491,7 @@ dfacheck2:
 
 dfamb1:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -1541,7 +1522,6 @@ exit2:
 
 exitval2:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -1750,7 +1730,7 @@ hsprint:
 	@echo $@
 	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
-	@-$(TESTOUTCMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
+	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 inpref:
 	@echo $@
@@ -2119,7 +2099,6 @@ rand:
 
 randtest:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@-$(LOCALES) AWK="$(AWKPROG)" "$(srcdir)"/$@.sh  > _$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2196,7 +2175,7 @@ resplit:
 
 rri1:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2242,13 +2221,11 @@ rstest3:
 
 rstest4:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 rstest5:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2325,7 +2302,6 @@ splitwht:
 
 status-close:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2351,13 +2327,12 @@ strnum2:
 
 strtod:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 subamp:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2368,7 +2343,7 @@ subback:
 
 subi18n:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2464,37 +2439,37 @@ uplus:
 
 wideidx:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 wideidx2:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 widesub:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 widesub2:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 widesub3:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 widesub4:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2525,7 +2500,6 @@ fflush:
 
 getlnhd:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP and MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2593,38 +2567,32 @@ asortbool:
 
 backw:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 clos1way:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=C; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 clos1way2:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 clos1way3:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 clos1way4:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 clos1way5:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2672,7 +2640,7 @@ dfacheck1:
 exit:
 	@echo $@
 	@-$(LOCALES) AWK="$(AWKPROG)" "$(srcdir)"/$@.sh  > _$@ 2>&1 || echo EXIT CODE: $$? >>_$@
-	@-$(TESTOUTCMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
+	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 fieldwdth:
 	@echo $@
@@ -2827,13 +2795,11 @@ gnuops2:
 
 gnuops3:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 gnureops:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2854,7 +2820,6 @@ icasers:
 
 id:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2870,7 +2835,7 @@ igncfs:
 
 ignrcas2:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3037,7 +3002,6 @@ nonfatal2:
 
 nonfatal3:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3089,7 +3053,7 @@ patsplit:
 posix:
 	@echo $@
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
-	@-$(TESTOUTCMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
+	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 printfbad1:
 	@echo $@
@@ -3108,7 +3072,7 @@ printfbad4:
 
 printhuge:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3169,7 +3133,6 @@ regnul2:
 
 regx8bit:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3180,7 +3143,7 @@ reint:
 
 reint2:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  --re-interval < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3388,7 +3351,7 @@ double1:
 double2:
 	@echo $@ $(ZOS_FAIL)
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
-	@-$(TESTOUTCMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
+	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 intformat:
 	@echo $@
@@ -3421,7 +3384,7 @@ backsmalls1:
 
 backsmalls2:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3429,7 +3392,7 @@ fmttest:
 	@echo $@ $(ZOS_FAIL)
 	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
-	@-$(TESTOUTCMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
+	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 fnarydel:
 	@echo $@
@@ -3447,7 +3410,7 @@ fnparydl:
 
 lc_num1:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3473,7 +3436,7 @@ mbprintf2:
 
 mbprintf3:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3486,7 +3449,7 @@ mbprintf4:
 
 mtchi18n:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=RUS_RUS.1251; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ru_RU.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3517,13 +3480,11 @@ fnmatch:
 
 fork:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 fork2:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3615,7 +3576,6 @@ mpfrrndeval:
 
 mpfrsqrt:
 	@echo $@
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  -M >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3644,7 +3604,7 @@ clean-local:
 
 # An attempt to print something that can be grepped for in build logs
 pass-fail:
-	@-COUNT=`ls _* 2>/dev/null | wc -l` ; \
+	@COUNT=`ls _* 2>/dev/null | wc -l` ; \
 	if test $$COUNT = 0 ; \
 	then	echo ALL TESTS PASSED ; \
 	else	echo $$COUNT TESTS FAILED ; exit 1; \
@@ -3672,12 +3632,12 @@ zos-diffout:
 		if [ -f _$$i ]; then mv -f _$$i X_$$i ; fi ; \
 		if [ ! -f X_$$i ]; then echo $$i apparently passed! please check ; fi ; done
 	@echo checking for new failures ...
-	@-$(MAKE) diffout
+	@$(MAKE) diffout
 
 # convenient way to scan valgrind results for errors
 valgrind-scan:
 	@echo "Scanning valgrind log files for problems:"
-	@-$(AWK) -f "$(srcdir)"/valgrind.awk log.[0-9]*
+	@$(AWK) -f "$(srcdir)"/valgrind.awk log.[0-9]*
 
 # This target is for testing with electric fence.
 efence:
