@@ -564,8 +564,6 @@ all: $(BUILT_SOURCES) config.h
 
 .SUFFIXES:
 .SUFFIXES: .c .o .obj .y
-am--refresh: Makefile
-	@:
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -1029,7 +1027,7 @@ check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) check-local
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-recursive
-all-am: Makefile $(PROGRAMS) $(HEADERS) config.h
+all-am: $(PROGRAMS) $(HEADERS) config.h
 installdirs: installdirs-recursive
 installdirs-am:
 	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(includedir)"; do \
