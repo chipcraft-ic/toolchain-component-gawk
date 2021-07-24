@@ -1,4 +1,0 @@
-# Ignore files that are created by a build.
-Makefile.in
-POTFILES
-

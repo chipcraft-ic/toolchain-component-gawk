@@ -585,7 +585,6 @@ devfd::
 # on the command line.
 errno:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP and MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -780,7 +779,6 @@ printfbad2: printfbad2.ok
 
 beginfile1::
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk "$(srcdir)"/$@.awk . ./no/such/file Makefile  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -1728,7 +1726,6 @@ hex2:
 
 hsprint:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2036,7 +2033,7 @@ pcntplus:
 
 posix_compare:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  --posix >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2261,7 +2258,6 @@ setrec1:
 
 sigpipe1:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2598,7 +2594,6 @@ clos1way5:
 
 clos1way6:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP and MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2784,7 +2779,6 @@ gensub3:
 
 getlndir:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2871,7 +2865,6 @@ indirectcall2:
 
 inf-nan-torture:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2947,15 +2940,13 @@ match3:
 
 mbstr1:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP and MinGW.
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 mbstr2:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP and MinGW.
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -2996,7 +2987,6 @@ nondec2:
 
 nonfatal2:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3289,7 +3279,6 @@ symtab11:
 
 timeout:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP and MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3370,15 +3359,13 @@ asorti:
 
 backbigs1:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP and MinGW.
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 backsmalls1:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP and MinGW.
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3390,7 +3377,6 @@ backsmalls2:
 
 fmttest:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3416,21 +3402,19 @@ lc_num1:
 
 mbfw1:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP and MinGW.
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 mbprintf1:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP and MinGW.
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
 mbprintf2:
 	@echo $@ $(ZOS_FAIL)
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=JPN_JPN.932; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ja_JP.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3442,8 +3426,7 @@ mbprintf3:
 
 mbprintf4:
 	@echo $@ $(ZOS_FAIL)
-	@echo Expect $@ to fail with DJGPP and MinGW.
-	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=ENU_USA.1252; export GAWKLOCALE; \
+	@[ -z "$$GAWKLOCALE" ] && GAWKLOCALE=en_US.UTF-8; export GAWKLOCALE; \
 	AWKPATH="$(srcdir)" $(AWK) -f $@.awk  < "$(srcdir)"/$@.in >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
@@ -3495,7 +3478,6 @@ functab4:
 
 functab5:
 	@echo $@
-	@echo Expect $@ to fail with MinGW.
 	@AWKPATH="$(srcdir)" $(AWK) -f $@.awk  >_$@ 2>&1 || echo EXIT CODE: $$? >>_$@
 	@-$(CMP) "$(srcdir)"/$@.ok _$@ && rm -f _$@
 
